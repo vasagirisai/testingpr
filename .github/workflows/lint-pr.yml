@@ -10,7 +10,7 @@ jobs:
     steps:
     - uses: actions/checkout@v2
       with:
-          ref: vasagirisai-patch-1
+          ref: develop
     - name: Set up Python 3.7
       uses: actions/setup-python@v2
       with:
@@ -23,12 +23,12 @@ jobs:
           ansible-lint install.yml
     - name: Reset master branch
       run: |
-          git fetch origin develop:develop
-          git reset --hard develop
+          git fetch origin vasagirisai-patch-1:vasagirisai-patch-1
+          git reset --hard vasagirisai-patch-1
     - name: Create Pull Request
       uses: peter-evans/create-pull-request@v4
       with:
         commit-message: update master branch
         title: Update main branch
-        branch: develop
+        branch: temp
         reviewers: vasagirisai
