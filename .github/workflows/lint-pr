@@ -1,0 +1,34 @@
+name: ansible-lint
+
+on: 
+  push:
+    branches: vasagirisai-patch-1
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+      with:
+          ref: develop
+    - name: Set up Python 3.7
+      uses: actions/setup-python@v2
+      with:
+        python-version: 3.7
+    - name: Install dependencies
+      run: |
+        sudo python -m pip install ansible-lint
+    - name: Run ansible-lint
+      run: |
+        ansible-lint *.yml
+    - name: Reset master branch
+      run: |
+          git fetch origin vasagirisai-patch-1:vasagirisai-patch-1
+          git reset --hard vasagirisai-patch-1
+    - name: Create Pull Request
+      uses: peter-evans/create-pull-request@v4
+      with:
+        commit-message: update master branch
+        title: Update main branch
+        branch: vasagirisai-patch-1
+        reviewers: vasagirisai
